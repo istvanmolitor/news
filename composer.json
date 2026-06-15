@@ -1,0 +1,28 @@
+{
+    "name": "istvanmolitor/news",
+    "description": "News portal frontend package.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Molitor István",
+            "email": "istvanmolitor@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "istvanmolitor/theme": "*@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Molitor\\News\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Molitor\\News\\Providers\\NewsServiceProvider"
+            ]
+        }
+    }
+}
