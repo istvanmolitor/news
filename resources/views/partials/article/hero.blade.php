@@ -1,7 +1,9 @@
 <div class="relative w-full overflow-hidden" style="height: 560px;">
 
   <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900">
-    <div class="absolute inset-0 opacity-55" style="background: url('https://picsum.photos/seed/article-hero/1400/600') center/cover;"></div>
+    @if($post->main_image_url)
+      <div class="absolute inset-0 opacity-55" style="background: url('{{ $post->main_image_url }}') center/cover;"></div>
+    @endif
     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
   </div>
 
@@ -16,33 +18,42 @@
       <nav class="flex items-center gap-2 text-xs text-white/50 mb-5">
         <a href="/" class="hover:text-white transition-colors">Főoldal</a>
         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        <a href="#" class="hover:text-white transition-colors">Belföld</a>
-        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        <span class="text-white/40 truncate max-w-xs">Kormányváltás után...</span>
+        @if($post->postGroups->isNotEmpty())
+          <a href="#" class="hover:text-white transition-colors">{{ $post->postGroups->first()->name }}</a>
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        @endif
+        <span class="text-white/40 truncate max-w-xs">{{ Str::limit($post->title, 40) }}</span>
       </nav>
 
-      <div class="flex items-center gap-2 mb-4 flex-wrap">
-        <span class="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">Belföld</span>
-        <span class="bg-white/15 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm">Politika</span>
-        <span class="bg-orange-500/90 text-white text-xs font-bold px-3 py-1.5 rounded-full animate-pulse">● Frissítve: 14 perce</span>
-      </div>
+      @if($post->postGroups->isNotEmpty())
+        <div class="flex items-center gap-2 mb-4 flex-wrap">
+          <span class="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">{{ $post->postGroups->first()->name }}</span>
+          @foreach($post->postGroups->skip(1) as $group)
+            <span class="bg-white/15 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm">{{ $group->name }}</span>
+          @endforeach
+        </div>
+      @endif
 
       <h1 class="text-white text-3xl sm:text-4xl lg:text-5xl font-black leading-tight mb-4">
-        Kormányváltás után: az első száz nap mérlege – merre tart Magyarország?
+        {{ $post->title }}
       </h1>
 
-      <div class="flex items-center gap-4 text-white/70 text-sm">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">KP</div>
-          <span><strong class="text-white">Kovács Péter</strong></span>
-        </div>
-        <span class="text-white/40">·</span>
-        <span>2026. június 15.</span>
-        <span class="text-white/40">·</span>
-        <span class="flex items-center gap-1.5">
-          <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          8 perc olvasás
-        </span>
+      <div class="flex items-center gap-4 text-white/70 text-sm flex-wrap">
+        @foreach($post->authors as $author)
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">
+              {{ collect(explode(' ', $author->name))->map(fn($w) => strtoupper($w[0] ?? ''))->take(2)->implode('') }}
+            </div>
+            <span><strong class="text-white">{{ $author->name }}</strong></span>
+          </div>
+          @if(!$loop->last)<span class="text-white/40">·</span>@endif
+        @endforeach
+        @if($post->authors->isNotEmpty())<span class="text-white/40">·</span>@endif
+        <span>{{ $post->created_at->translatedFormat('Y. F j.') }}</span>
+        @if($post->updated_at->gt($post->created_at->addMinutes(5)))
+          <span class="text-white/40">·</span>
+          <span class="bg-orange-500/90 text-white text-xs font-bold px-3 py-1.5 rounded-full">● Frissítve: {{ $post->updated_at->diffForHumans() }}</span>
+        @endif
       </div>
 
     </div>

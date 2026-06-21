@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace Molitor\News\Http\Controllers;
 
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\View\View;
+use Molitor\Cms\Repositories\PostRepositoryInterface;
 
 class NewsController extends Controller
 {
+    public function __construct(
+        private PostRepositoryInterface $postRepository,
+    ) {}
+
     public function homepage(): View
     {
         return view('news::pages.index');
@@ -19,8 +25,18 @@ class NewsController extends Controller
         return view('news::pages.article.index');
     }
 
-    public function show(): View
+    public function show(string $slug): View|Response
     {
-        return view('news::pages.article.show');
+        $post = $this->postRepository->getBySlug($slug);
+
+        if (! $post) {
+            abort(404);
+        }
+
+        $post->load(['content.contentElements', 'authors', 'postGroups']);
+
+        return view('news::pages.article.show', [
+            'post' => $post,
+        ]);
     }
 }
