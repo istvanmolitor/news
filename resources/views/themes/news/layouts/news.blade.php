@@ -11,7 +11,7 @@
 <div class="min-h-screen bg-slate-100 font-sans">
 
   @include('news::partials.top-bar')
-  @include('news::partials.header')
+  <x-theme::component view="layouts.partials.header" />
   @include('news::partials.nav')
   @include('news::partials.ticker')
 
@@ -24,7 +24,7 @@
   </main>
 
   @include('news::partials.newsletter')
-  @include('news::partials.footer')
+  <x-theme::component view="layouts.partials.footer" />
 
 </div>
 @endsection

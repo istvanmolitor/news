@@ -11,16 +11,16 @@ class NewsController extends Controller
 {
     public function homepage(): View
     {
-        return view('news::homepage.index');
+        return view('news::pages.index');
     }
 
     public function index(): View
     {
-        return view('news::news.index');
+        return view('news::pages.article.index');
     }
 
     public function show(): View
     {
-        return view('news::article.show');
+        return view('news::pages.article.show');
     }
 }
