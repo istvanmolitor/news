@@ -1,4 +1,4 @@
-@extends('theme::layouts.right-sidebar')
+@extends($layout)
 
 @section('page-top')
   @include('news::partials.article.hero')
