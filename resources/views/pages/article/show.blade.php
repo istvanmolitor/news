@@ -1,15 +1,12 @@
-@extends('news::layouts.app')
+@extends('theme::layouts.right-sidebar')
 
-@section('hero')
+@section('page-top')
   @include('news::partials.article.hero')
 @endsection
 
 @section('content')
 
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-  {{-- ═══════════════════ CIKK TÖRZS (8 col) ═══════════════════ --}}
-  <article class="lg:col-span-8">
+  <article>
 
     @include('news::partials.article.meta-bar')
 
@@ -88,20 +85,22 @@
 
   </article>
 
-  {{-- ═══════════════════ OLDALSÁV (4 col, sticky) ═══════════════════ --}}
-  <aside class="lg:col-span-4">
-    <div class="sticky top-20 space-y-5">
+@endsection
+
+@section('sidebar')
+  <div class="sticky top-20">
       @include('news::partials.article.sidebar-stats')
       @include('news::partials.article.sidebar-related')
       @include('news::partials.sidebar.ad')
       @include('news::partials.sidebar.trending')
     </div>
-  </aside>
+@endsection
 
-</div>
+@section('content-bottom')
+  @include('news::partials.article.related-grid')
+@endsection
 
-@include('news::partials.article.related-grid')
-
+@section('script')
 <script>
   window.addEventListener('scroll', function() {
     const article = document.querySelector('article');
@@ -114,5 +113,4 @@
     if (bar) bar.style.width = progress + '%';
   });
 </script>
-
 @endsection

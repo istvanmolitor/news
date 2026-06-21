@@ -1,4 +1,4 @@
-@extends('theme::layouts.right-sidebar')
+@extends('theme::layouts.left-sidebar')
 
 @section('content')
 
