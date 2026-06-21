@@ -1,7 +1,7 @@
 @extends($layout)
 
-@section('page-top')
-@include('news::partials.article.hero')
+@section('top')
+    @include('news::partials.article.hero')
 @endsection
 
 @section('content')
