@@ -24,7 +24,13 @@ class NewsController extends Controller
 
     public function index(): View
     {
-        return view('news::pages.article.index');
+        $posts = $this->postRepository->getAll([
+            'paginate' => true,
+            'per_page' => 10,
+        ]);
+        $posts->getCollection()->load('authors');
+
+        return view('news::pages.article.index', compact('posts'));
     }
 
     public function show(string $slug): View|Response
