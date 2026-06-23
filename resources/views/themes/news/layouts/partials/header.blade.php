@@ -48,4 +48,5 @@
 
     </div>
   </div>
+  @include('news::partials.nav')
 </header>

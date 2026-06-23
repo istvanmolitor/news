@@ -12,7 +12,7 @@
 
   @include('news::partials.top-bar')
   <x-theme::component view="layouts.partials.header" />
-  @include('news::partials.nav')
+  
   @include('news::partials.ticker')
 
   @hasSection('hero')
