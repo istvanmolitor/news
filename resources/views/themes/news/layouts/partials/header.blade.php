@@ -16,7 +16,12 @@
       </a>
 
       {{-- Keresősáv --}}
-      <form action="{{ route('news.search') }}" method="GET" class="hidden md:flex flex-1 max-w-md mx-8">
+      @php
+          $searchRoute = collect(['news.search', 'cms.search', 'search'])
+              ->first(fn($r) => \Illuminate\Support\Facades\Route::has($r));
+          $searchAction = $searchRoute ? route($searchRoute) : '/search';
+      @endphp
+      <form action="{{ $searchAction }}" method="GET" class="hidden md:flex flex-1 max-w-md mx-8">
         <input
           type="text"
           name="q"
