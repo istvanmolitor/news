@@ -14,7 +14,7 @@
         <p class="text-lg sm:text-xl font-medium text-slate-800 leading-relaxed pl-5 border-l-4 border-red-600 bg-red-50/50 py-3 pr-4 rounded-r-xl">
             {{ $post->lead }}
         </p>
-        <x-cms-content :content="$post->content" />
+        <x-cms::content :content="$post->content" />
 
         @include('news::partials.article.content-key-facts')
 
