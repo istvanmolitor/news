@@ -2,14 +2,14 @@
     $searchRoute = collect(['news.search', 'cms.search', 'search'])
         ->first(fn($r) => \Illuminate\Support\Facades\Route::has($r));
     $searchAction = $searchRoute ? route($searchRoute) : '/search';
-    $searchQuery = request()->string('q')->value();
+    $searchQuery = request()->string('search')->value();
 @endphp
 
 <form action="{{ $searchAction }}" method="GET" role="search" class="flex items-center">
     <div class="relative">
         <input
             type="search"
-            name="q"
+            name="search"
             value="{{ $searchQuery }}"
             placeholder="Keresés a hírekben..."
             aria-label="Keresés"
